@@ -7,12 +7,14 @@ Gaurav Garg (gaurav_garg@yahoo.com)
 Instead of setting the working directory through code, I prefer to let the user set the working directory (outside the script). Assuming the input **data file "activity.csv"** is located in the **current working directory**.    
 - Use read.csv() to read the data file. The data file has the header already. I will use the existing column names.  
 
+```r
+        data_pa <- read.csv("activity.csv", header= TRUE)   
+```
 *Q2. Process/transform the data (if necessary) into a format suitable for your analysis*  
 2. I use melt(), in the reshape package, to create a molten data frame and use it across the assignment. I assign the date and the interval as id columns; steps become the variable. This allows me to group the data on date and/or interval, as I proceed through the assignment.    
 3. To calculate the daily sum of steps, I use dcast() to create a data frame from the model data grouped on date. I pass the parameter na.rm=TRUE to get rid of incomplete rows.     
 
 ```r
-        data_pa <- read.csv("activity.csv", header= TRUE)   
         require(dplyr)
 ```
 
@@ -50,11 +52,11 @@ In order to create the histogram, I create the breaks in increment of 500 steps.
 - Use the seq() from 0 to upper limit calculated before.  
 - Use the hist() function to plot a histogram of Total Number of Steps on daily basis with breaks = 500 instead of the default breaks.  
 - I calculate the mean across the days and draw a line through the mean on the histogram.   
-- Finally, I save a copy of plot in figures/ directory.  
+- Finally, I save a copy of plot in figures/directory.  
 
 ```r
         steps_breaks <- seq (from=0, 
-                     to = (round(max(daily_complete$steps),-3)+5000),
+                     to = (round(max(daily_steps$steps),-3)+5000),
                      by = 500)
         hist(daily_steps$steps, main = "Histogram of Daily Sum of Steps", xlab = "Total Steps", 
                 breaks = steps_breaks)
@@ -63,7 +65,7 @@ In order to create the histogram, I create the breaks in increment of 500 steps.
         lines(c(xmean , xmean),c(0,10), col = "red", lwd = 2)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
 ```r
         #save the plot to the figures directory
@@ -103,7 +105,7 @@ In order to show the daily activity pattern, we are building a time series plot.
         axis(1, at=x_ticks)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
 ```r
         dev.copy(png,filename="./figures/PA1_figure2.png")
@@ -178,7 +180,7 @@ I am repeating the steps to build the histogram with the new dataset. I am also 
         lines(c(xmean2 , xmean2),c(0,10), col = "red", lwd = 2)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
 
 ```r
         #save the plot to the figures directory
@@ -256,7 +258,7 @@ I am using the qplot() in ggplot2 package. The steps for producing the solution 
              title="Mean steps across interval by Weekend/Weekday", y = "Number of Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
 
 ```r
         dev.copy(png,filename="./figures/PA1_figure4.png")

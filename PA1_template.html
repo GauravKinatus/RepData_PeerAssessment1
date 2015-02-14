@@ -60,9 +60,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="loading-and-pre-processing-the-data" class="section level2">
 <h2>Loading and pre-processing the data</h2>
 <p><em>Q1. Load the data (i.e. read.csv())</em><br />Instead of setting the working directory through code, I prefer to let the user set the working directory (outside the script). Assuming the input <strong>data file “activity.csv”</strong> is located in the <strong>current working directory</strong>.<br />- Use read.csv() to read the data file. The data file has the header already. I will use the existing column names.</p>
+<pre class="r"><code>        data_pa &lt;- read.csv(&quot;activity.csv&quot;, header= TRUE)   </code></pre>
 <p><em>Q2. Process/transform the data (if necessary) into a format suitable for your analysis</em><br />2. I use melt(), in the reshape package, to create a molten data frame and use it across the assignment. I assign the date and the interval as id columns; steps become the variable. This allows me to group the data on date and/or interval, as I proceed through the assignment.<br />3. To calculate the daily sum of steps, I use dcast() to create a data frame from the model data grouped on date. I pass the parameter na.rm=TRUE to get rid of incomplete rows.</p>
-<pre class="r"><code>        data_pa &lt;- read.csv(&quot;activity.csv&quot;, header= TRUE)   
-        require(dplyr)</code></pre>
+<pre class="r"><code>        require(dplyr)</code></pre>
 <pre><code>## Loading required package: dplyr
 ## 
 ## Attaching package: 'dplyr'
@@ -81,9 +81,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is mean total number of steps taken per day?</h2>
-<p><em>Q1. Make a histogram of the total number of steps taken each day</em><br />In order to create the histogram, I create the breaks in increment of 500 steps. Here are the steps:<br />- Find the maximum number of steps in the data frame, round it up to next 1000 and extend the scale to the right tail.<br />- Use the seq() from 0 to upper limit calculated before.<br />- Use the hist() function to plot a histogram of Total Number of Steps on daily basis with breaks = 500 instead of the default breaks.<br />- I calculate the mean across the days and draw a line through the mean on the histogram.<br />- Finally, I save a copy of plot in figures/ directory.</p>
+<p><em>Q1. Make a histogram of the total number of steps taken each day</em><br />In order to create the histogram, I create the breaks in increment of 500 steps. Here are the steps:<br />- Find the maximum number of steps in the data frame, round it up to next 1000 and extend the scale to the right tail.<br />- Use the seq() from 0 to upper limit calculated before.<br />- Use the hist() function to plot a histogram of Total Number of Steps on daily basis with breaks = 500 instead of the default breaks.<br />- I calculate the mean across the days and draw a line through the mean on the histogram.<br />- Finally, I save a copy of plot in figures/directory.</p>
 <pre class="r"><code>        steps_breaks &lt;- seq (from=0, 
-                     to = (round(max(daily_complete$steps),-3)+5000),
+                     to = (round(max(daily_steps$steps),-3)+5000),
                      by = 500)
         hist(daily_steps$steps, main = &quot;Histogram of Daily Sum of Steps&quot;, xlab = &quot;Total Steps&quot;, 
                 breaks = steps_breaks)
